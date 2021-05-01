@@ -1,14 +1,10 @@
-import time
 from threading import Thread, Lock
-from typing import Optional
 
 
 class PhotoGenerator(Thread):
-    def __init__(self, wait_time_s: int,
-                 amount_of_triggers: Optional[int] = int(10e6)):
+    def __init__(self, wait_time_s: int):
         super().__init__()
         self.wait_time = wait_time_s
-        self.amount_of_triggers = amount_of_triggers
         from hass_sleep_camera.camera_controller import CameraController
         self.camera_controller = CameraController()
         self._stop = False
@@ -16,10 +12,9 @@ class PhotoGenerator(Thread):
         self._lock.acquire()
 
     def generate_photos(self):
-        for i in range(self.amount_of_triggers):
-            if self._stop:
-                break
-            self.camera_controller.make_photo()
+        while not self._stop:
+            if not self.camera_controller.quick_photos_running:
+                self.camera_controller.make_photo()
             self._lock.acquire(timeout=self.wait_time)
 
     def run(self) -> None:
