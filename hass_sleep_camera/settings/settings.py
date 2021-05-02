@@ -1,3 +1,6 @@
+import os
+
+
 class Mqtt:
     ADDRESS = '192.168.0.164'
     PORT = 1883
@@ -16,3 +19,9 @@ class Timings:
     QUICK_PHOTOS_DELAY = 10
     SLOW_PHOTOS_DELAY = 60
     AMOUNT_QUICK_PHOTOS = 100
+
+
+class Folders:
+    ROOT_FOLDER = '/home/pi/images'
+    WAKE_UP_FOLDER = os.path.join(ROOT_FOLDER, 'wake_up')
+    SLEEP_FOLDER = os.path.join(ROOT_FOLDER, 'sleep')
