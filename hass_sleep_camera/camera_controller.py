@@ -23,7 +23,7 @@ class CameraController:
         self._log = logging.getLogger(self.__class__.__name__)
         self._button_checker: Optional[ButtonChecker] = None
         self._photo_generator: Optional[PhotoGenerator] = None
-        self._photo_queue = PhotosQueue(self.save_photo, queue_size_s=2)
+        self._photo_queue = PhotosQueue(self._save_photo, queue_size_s=10)
         self._photo_queue.start()
         self._quick_photos_running = False
 
@@ -43,7 +43,7 @@ class CameraController:
         if self._photo_generator:
             self._log.debug('Photo generator has already been started')
             return
-        self._photo_generator = PhotoGenerator(1, self.make_photo)
+        self._photo_generator = PhotoGenerator(1, self._make_photo)
         self._photo_generator.start()
 
     def stop_photos(self):
@@ -54,7 +54,7 @@ class CameraController:
             self._photo_generator.stop()
         self._photo_generator = None
 
-    def make_photo(self):
+    def _make_photo(self):
         self._log.debug('Making photo')
         photo = np.zeros((30, 30, 3), dtype=np.uint8)
         self._photo_queue.add_photo(photo)
@@ -68,7 +68,7 @@ class CameraController:
         if not os.path.exists(settings.Folders.SLEEP_FOLDER):
             os.mkdir(settings.Folders.SLEEP_FOLDER)
 
-    def save_photo(self, photo_name: str, photo: np.array):
+    def _save_photo(self, photo_name: str, photo: np.array):
         self._log.debug('Saving photo')
         self._check_folders_exists()
         if self._quick_photos_running:
@@ -79,3 +79,8 @@ class CameraController:
                                       photo_name) + '.jpg'
 
         cv2.imwrite(photo_path, photo)
+
+    def stop(self):
+        self._log.info('Stopping camera controller')
+        self.stop_photos()
+        self._photo_queue.stop()
