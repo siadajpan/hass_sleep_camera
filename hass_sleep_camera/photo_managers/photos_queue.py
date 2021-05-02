@@ -32,7 +32,7 @@ class PhotosQueue(Thread):
 
     def update_saving_frequency(self, saving_frequency: int):
         self._log.debug(f'Updating saving frequency to: {saving_frequency}')
-        self._queue_size_s = saving_frequency
+        self._saving_frequency = saving_frequency
 
     def add_photo(self, photo: np.array):
         photo_time = time.time()
