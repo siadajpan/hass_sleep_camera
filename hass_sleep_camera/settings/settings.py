@@ -25,3 +25,7 @@ class Folders:
     ROOT_FOLDER = '/home/pi/images'
     WAKE_UP_FOLDER = os.path.join(ROOT_FOLDER, 'wake_up')
     SLEEP_FOLDER = os.path.join(ROOT_FOLDER, 'sleep')
+
+
+class Inputs:
+    BUTTON_NUMBER = 17
