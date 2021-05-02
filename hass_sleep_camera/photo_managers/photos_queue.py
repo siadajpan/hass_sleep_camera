@@ -1,10 +1,8 @@
 import logging
-import os
 import queue
 import time
 from threading import Thread, Lock
 
-import cv2
 import numpy as np
 
 
