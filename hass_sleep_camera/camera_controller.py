@@ -25,10 +25,14 @@ class CameraController:
         self._log = logging.getLogger(self.__class__.__name__)
         self._button_checker: Optional[ButtonChecker] = None
         self._photo_generator: Optional[PhotoGenerator] = None
-        self._photo_queue = PhotosQueue(self._save_photo, queue_size_s=10)
+        self._quick_photos_running = False
+        self._photo_queue = PhotosQueue(
+            self._save_photo,
+            saving_frequency=settings.Timings.SLOW_PHOTOS_FREQUENCY,
+            queue_size_s=settings.Timings.QUEUE_SIZE_S
+        )
         self._photo_queue.start()
         self._photo_counter = PhotosCounter()
-        self._quick_photos_running = False
         self.stream = io.BytesIO()
 
     def _start_photo_generator(self):
@@ -36,7 +40,8 @@ class CameraController:
         if self._photo_generator:
             self._log.debug('Photo generator has already been started')
             return
-        self._photo_generator = PhotoGenerator(1, self._make_photo)
+        self._photo_generator = PhotoGenerator(
+            settings.Timings.DELAY_BETWEEN_PHOTOS_S, self._make_photo)
         self._photo_generator.start()
 
     def _stop_photo_generator(self):
@@ -50,7 +55,7 @@ class CameraController:
     def button_pressed_callable(self):
         self._quick_photos_running = True
         self._photo_queue.update_saving_frequency(
-            settings.Timings.QUICK_PHOTOS_DELAY)
+            settings.Timings.QUICK_PHOTOS_FREQUENCY)
         self._photo_counter.update_photos_left(
             settings.Timings.AMOUNT_QUICK_PHOTOS,
         )
@@ -58,7 +63,7 @@ class CameraController:
     def set_frequency_for_slow_photos(self):
         self._quick_photos_running = False
         self._photo_queue.update_saving_frequency(
-            settings.Timings.SLOW_PHOTOS_DELAY
+            settings.Timings.SLOW_PHOTOS_FREQUENCY
         )
 
     def _start_button_checker(self):

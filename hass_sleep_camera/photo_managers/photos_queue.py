@@ -15,7 +15,7 @@ class PhotosQueue(Thread):
     photos just before waking up.
     """
 
-    def __init__(self, save_callable: callable, saving_frequency: float = 1,
+    def __init__(self, save_callable: callable, saving_frequency: float,
                  queue_size_s=30):
         super().__init__()
         self._photos_queue = queue.Queue()

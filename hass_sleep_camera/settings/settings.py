@@ -16,9 +16,11 @@ class Messages:
 
 
 class Timings:
-    QUICK_PHOTOS_DELAY = 10
-    SLOW_PHOTOS_DELAY = 60
-    AMOUNT_QUICK_PHOTOS = 100
+    DELAY_BETWEEN_PHOTOS_S = 1  # photo done every second
+    QUICK_PHOTOS_FREQUENCY = 1  # every photo will be saved
+    SLOW_PHOTOS_FREQUENCY = 10  # every tenth photo will be saved
+    AMOUNT_QUICK_PHOTOS = 10
+    QUEUE_SIZE_S = 60  # images saved after this amount of s
 
 
 class Folders:
