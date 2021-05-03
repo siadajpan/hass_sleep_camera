@@ -89,6 +89,7 @@ class CameraController:
     def stop_photos(self):
         self._stop_photo_generator()
         self._stop_button_checker()
+        self._photo_queue.flash_queue()
 
     def _make_photo(self):
         self._log.debug('Making photo')
