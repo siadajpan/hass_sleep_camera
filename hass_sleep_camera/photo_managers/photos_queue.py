@@ -72,5 +72,5 @@ class PhotosQueue(Thread):
             time_to_wait = self._queue_size_s - (current_time - photo_time)
             self._lock.acquire(timeout=time_to_wait)
             photo_name = datetime.fromtimestamp(photo_time).\
-                strftime("%Y_%M_%D__%H_%M_%S")
+                strftime("%Y_%M_%d__%H_%M_%S")
             self._save_photo(photo, photo_name)
