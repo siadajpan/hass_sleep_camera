@@ -19,6 +19,7 @@ from hass_sleep_camera.settings import settings
 class CameraController:
     def __init__(self):
         self._camera = PiCamera()
+        self._camera.resolution = settings.Inputs.CAMERA_RESOLUTION
         self._log = logging.getLogger(self.__class__.__name__)
         self._button_checker: Optional[ButtonChecker] = None
         self._photo_generator: Optional[PhotoGenerator] = None
@@ -90,7 +91,7 @@ class CameraController:
     def _make_photo(self):
         self._log.debug('Making photo')
         with picamera.array.PiRGBArray(self._camera) as stream:
-            self._camera.capture(stream, format='bgr')
+            self._camera.capture(stream, format='rgb')
             image = stream.array
             self._photo_queue.add_photo(image)
 

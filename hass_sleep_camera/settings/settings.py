@@ -33,3 +33,4 @@ class Folders:
 
 class Inputs:
     BUTTON_NUMBER = 17
+    CAMERA_RESOLUTION = (2592, 1944)
