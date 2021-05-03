@@ -115,14 +115,13 @@ class CameraController:
             photo_path = os.path.join(settings.Folders.WAKE_UP_FOLDER,
                                       photo_name) + '.jpg'
             self._photo_counter.update_photo_counter()
+            if self._photo_counter.counter_done():
+                self.set_frequency_for_slow_photos()
         else:
             photo_path = os.path.join(settings.Folders.SLEEP_FOLDER,
                                       photo_name) + '.jpg'
 
         cv2.imwrite(photo_path, photo)
-
-        if self._photo_counter.counter_done():
-            self.set_frequency_for_slow_photos()
 
     def stop(self):
         self._log.info('Stopping camera controller')
