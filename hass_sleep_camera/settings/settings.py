@@ -16,11 +16,13 @@ class Messages:
 
 
 class Timings:
-    DELAY_BETWEEN_PHOTOS_S = 1  # photo done every second
-    QUICK_PHOTOS_FREQUENCY = 1  # every photo will be saved
-    SLOW_PHOTOS_FREQUENCY = 10  # every tenth photo will be saved
-    AMOUNT_QUICK_PHOTOS = 10
-    QUEUE_SIZE_S = 60  # images saved after this amount of s
+    DELAY_BETWEEN_PHOTOS_S = 10  # photo done every n second
+    QUICK_PHOTOS_FREQUENCY = 1  # every n-th photo will be saved
+    SLOW_PHOTOS_FREQUENCY = 10  # every n-th photo will be saved
+    AMOUNT_QUICK_PHOTOS = 60  # save n quick photos before going back to slow
+    # saved images are from n seconds back - how much time in seconds
+    # back before pressing button we want images to be saved
+    QUEUE_SIZE_S = 120
 
 
 class Folders:
