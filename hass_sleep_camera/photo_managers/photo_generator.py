@@ -6,12 +6,12 @@ class PhotoGenerator(Thread):
         super().__init__()
         self.wait_time = wait_time_s
         self.make_photo_callback = make_photo_callback
-        self._stop = False
+        self._stop_thread = False
         self._lock = Lock()
         self._lock.acquire()
 
     def generate_photos(self):
-        while not self._stop:
+        while not self._stop_thread:
             self.make_photo_callback()
             self._lock.acquire(timeout=self.wait_time)
 
@@ -19,5 +19,5 @@ class PhotoGenerator(Thread):
         self.generate_photos()
 
     def stop(self):
-        self._stop = True
+        self._stop_thread = True
         self._lock.release()

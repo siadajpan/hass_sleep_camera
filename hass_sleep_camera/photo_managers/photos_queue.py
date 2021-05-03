@@ -25,7 +25,7 @@ class PhotosQueue(Thread):
         self._queue_size_s = queue_size_s
         self._save_callable = save_callable
         self._photo_counter = 0
-        self._stop = False
+        self._stop_thread = False
         self._lock = Lock()
         self._lock.acquire()
         self._log = logging.getLogger(self.__class__.__name__)
@@ -46,7 +46,7 @@ class PhotosQueue(Thread):
 
     def stop(self):
         self._log.info('Stopping Photo Queue')
-        self._stop = True
+        self._stop_thread = True
         self.flash_queue()
         self._photos_queue.put((None, None))
         self._lock.release()
@@ -63,7 +63,7 @@ class PhotosQueue(Thread):
 
     def run(self) -> None:
         self._log.debug('Running photo queue')
-        while not self._stop:
+        while not self._stop_thread:
             photo_time, photo = self._photos_queue.get()
             if photo_time is None and photo is None:
                 # thread is stopped
