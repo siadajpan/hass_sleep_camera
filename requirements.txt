@@ -3,3 +3,4 @@ singleton-decorator
 numpy
 opencv-python
 RPi.GPIO
+picamera

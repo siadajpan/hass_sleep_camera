@@ -1,3 +1,4 @@
+import io
 import logging
 import os
 import time
@@ -5,7 +6,7 @@ from os import times
 from threading import Lock
 from typing import Optional
 
-# from picamera import PiCamera
+from picamera import PiCamera
 import cv2
 import numpy as np
 from singleton_decorator import singleton
@@ -20,7 +21,7 @@ from hass_sleep_camera.settings import settings
 @singleton
 class CameraController:
     def __init__(self):
-        # self.camera = PiCamera()
+        self._camera = PiCamera()
         self._log = logging.getLogger(self.__class__.__name__)
         self._button_checker: Optional[ButtonChecker] = None
         self._photo_generator: Optional[PhotoGenerator] = None
@@ -28,6 +29,7 @@ class CameraController:
         self._photo_queue.start()
         self._photo_counter = PhotosCounter()
         self._quick_photos_running = False
+        self.stream = io.BytesIO()
 
     def _start_photo_generator(self):
         self._log.debug('Starting photo generator')
@@ -85,8 +87,11 @@ class CameraController:
 
     def _make_photo(self):
         self._log.debug('Making photo')
-        photo = np.zeros((30, 30, 3), dtype=np.uint8)
-        self._photo_queue.add_photo(photo)
+        self._camera.capture(self.stream, format='jpeg')
+        data = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
+        image = cv2.imdecode(data, 1)
+        image = image[:, :, ::-1]
+        self._photo_queue.add_photo(image)
 
     @staticmethod
     def _check_folders_exists():
