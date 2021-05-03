@@ -109,7 +109,7 @@ class CameraController:
             os.mkdir(settings.Folders.SLEEP_FOLDER)
 
     def _save_photo(self, photo_name: str, photo: np.array):
-        self._log.debug('Saving photo')
+        self._log.debug(f'Saving photo {photo_name}')
         self._check_folders_exists()
         if self._quick_photos_running:
             photo_path = os.path.join(settings.Folders.WAKE_UP_FOLDER,
@@ -121,6 +121,7 @@ class CameraController:
             photo_path = os.path.join(settings.Folders.SLEEP_FOLDER,
                                       photo_name) + '.jpg'
 
+        self._log.debug(f'Writing image to file {photo_path}')
         cv2.imwrite(photo_path, photo)
 
     def stop(self):

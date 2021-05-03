@@ -52,7 +52,7 @@ class PhotosQueue(Thread):
         self._lock.release()
 
     def _save_photo(self, photo: np.array, photo_name: str):
-        self._log.debug('Saving photo')
+        self._log.debug(f'Saving photo {photo_name}')
         self._photo_counter = (self._photo_counter + 1) \
                               % self._saving_frequency
         if self._photo_counter != 0:
