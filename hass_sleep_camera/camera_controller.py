@@ -1,11 +1,7 @@
-import io
 import logging
 import os
-import time
-from os import times
-from threading import Lock
 from typing import Optional
-
+import picamera
 from picamera import PiCamera
 import cv2
 import numpy as np
@@ -33,7 +29,6 @@ class CameraController:
         )
         self._photo_queue.start()
         self._photo_counter = PhotosCounter()
-        self.stream = io.BytesIO()
 
     def _start_photo_generator(self):
         self._log.debug('Starting photo generator')
@@ -93,11 +88,10 @@ class CameraController:
 
     def _make_photo(self):
         self._log.debug('Making photo')
-        self._camera.capture(self.stream, format='jpeg')
-        data = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
-        image = cv2.imdecode(data, 1)
-        image = image[:, :, ::-1]
-        self._photo_queue.add_photo(image)
+        with picamera.array.PiRGBArray(self._camera) as stream:
+            self._camera.capture(stream, format='bgr')
+            image = stream.array
+            self._photo_queue.add_photo(image)
 
     @staticmethod
     def _check_folders_exists():
