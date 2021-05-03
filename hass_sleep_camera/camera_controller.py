@@ -2,6 +2,7 @@ import logging
 import os
 from typing import Optional
 import picamera
+import picamera.array
 from picamera import PiCamera
 import cv2
 import numpy as np
