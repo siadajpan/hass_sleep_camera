@@ -63,6 +63,7 @@ class CameraController:
             self._log.debug('There was no photo generator to stop')
         else:
             self._photo_generator.stop()
+            time.sleep(3)
         self._photo_generator = None
 
     def _make_photo(self):
