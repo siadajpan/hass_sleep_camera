@@ -25,9 +25,9 @@ if __name__ == '__main__':
 
     MESSAGES = [StartPhotos(), StopPhotos()]
     message_manager = MessageManager(MESSAGES)
-    message_manager.update_credentials(settings.Mqtt.USERNAME,
-                                       settings.Mqtt.PASSWORD)
-    message_manager.connect(settings.Mqtt.ADDRESS, settings.Mqtt.PORT)
+    message_manager.update_credentials(settings.USERNAME,
+                                       settings.PASSWORD)
+    message_manager.connect(settings.ADDRESS, settings.PORT)
 
     logging.info('Starting message manager')
     message_manager.start()

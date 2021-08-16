@@ -8,7 +8,7 @@ from hass_sleep_camera.settings import settings
 
 class StopPhotos(MQTTMessage):
     def __init__(self):
-        super().__init__(settings.Messages.STOP_PHOTOS)
+        super().__init__(settings.Mqtt.STOP_PHOTOS)
         self.camera_controller = CameraController()
 
     def execute(self, payload: Dict[str, Any]):
