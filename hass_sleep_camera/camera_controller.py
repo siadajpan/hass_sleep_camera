@@ -21,12 +21,24 @@ class CameraController:
         self._camera.resolution = settings.CAMERA_RESOLUTION
         self._log = logging.getLogger(self.__class__.__name__)
         self._photo_generator: Optional[PhotoGenerator] = None
+        self._video_writer: Optional[cv2.VideoWriter] = None
 
     def start_photos(self):
+        video_name = datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
+        video_path = os.path.join(settings.SLEEP_FOLDER,
+                                  video_name) + '.avi'
+        self._log.debug(f'Writing image to file {video_path}')
+        self._video_writer = cv2.VideoWriter(
+            video_path,
+            cv2.VideoWriter_fourcc(*'DIVX'),
+            int(1/settings.DELAY_BETWEEN_PHOTOS_S),
+            self._camera.resolution
+        )
         self._start_photo_generator()
 
     def stop_photos(self):
         self._stop_photo_generator()
+        self._video_writer.release()
 
     def stop(self):
         self._log.info('Stopping camera controller')
@@ -50,12 +62,14 @@ class CameraController:
         self._photo_generator = None
 
     def _make_photo(self):
+        """
+        Callback executed by photo generator
+        """
         self._log.debug('Making photo')
         with picamera.array.PiRGBArray(self._camera) as stream:
             self._camera.capture(stream, format='rgb')
             image = stream.array
-            photo_name = datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
-            self._save_photo(photo_name, image)
+            self._save_photo(image)
 
     @staticmethod
     def _check_folders_exists():
@@ -64,10 +78,7 @@ class CameraController:
         if not os.path.exists(settings.SLEEP_FOLDER):
             os.mkdir(settings.SLEEP_FOLDER)
 
-    def _save_photo(self, photo_name: str, photo: np.array):
-        self._log.debug(f'Saving photo {photo_name}')
+    def _save_photo(self, photo: np.array):
+        self._log.debug(f'Adding photo')
         self._check_folders_exists()
-        photo_path = os.path.join(settings.SLEEP_FOLDER,
-                                  photo_name) + '.jpg'
-        self._log.debug(f'Writing image to file {photo_path}')
-        cv2.imwrite(photo_path, photo)
+        self._video_writer.write(photo)
