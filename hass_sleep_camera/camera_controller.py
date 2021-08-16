@@ -59,15 +59,15 @@ class CameraController:
 
     @staticmethod
     def _check_folders_exists():
-        if not os.path.exists(settings.Folders.ROOT_FOLDER):
+        if not os.path.exists(settings.ROOT_FOLDER):
             os.mkdir(settings.ROOT_FOLDER)
-        if not os.path.exists(settings.Folders.SLEEP_FOLDER):
+        if not os.path.exists(settings.SLEEP_FOLDER):
             os.mkdir(settings.SLEEP_FOLDER)
 
     def _save_photo(self, photo_name: str, photo: np.array):
         self._log.debug(f'Saving photo {photo_name}')
         self._check_folders_exists()
-        photo_path = os.path.join(settings.Folders.SLEEP_FOLDER,
+        photo_path = os.path.join(settings.SLEEP_FOLDER,
                                   photo_name) + '.jpg'
         self._log.debug(f'Writing image to file {photo_path}')
         cv2.imwrite(photo_path, photo)
