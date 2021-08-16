@@ -1,17 +1,16 @@
-import cv2
 import logging
-import numpy as np
 import os
+from datetime import datetime
+from typing import Optional
+
+import cv2
+import numpy as np
 import picamera
 import picamera.array
 from picamera import PiCamera
 from singleton_decorator import singleton
-from typing import Optional
 
-from hass_sleep_camera.button.button_checker import ButtonChecker
 from hass_sleep_camera.photo_managers.photo_generator import PhotoGenerator
-from hass_sleep_camera.photo_managers.photos_counter import PhotosCounter
-from hass_sleep_camera.photo_managers.photos_queue import PhotosQueue
 from hass_sleep_camera.settings import settings
 
 
@@ -55,8 +54,7 @@ class CameraController:
         with picamera.array.PiRGBArray(self._camera) as stream:
             self._camera.capture(stream, format='rgb')
             image = stream.array
-            photo_name = datetime.fromtimestamp(photo_time). \
-                strftime("%Y_%m_%d__%H_%M_%S")
+            photo_name = datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
             self._save_photo(photo_name, image)
 
     @staticmethod
