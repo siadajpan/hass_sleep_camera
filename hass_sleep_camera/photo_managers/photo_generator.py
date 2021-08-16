@@ -1,3 +1,4 @@
+import time
 from threading import Thread, Lock
 
 
@@ -12,8 +13,11 @@ class PhotoGenerator(Thread):
 
     def generate_photos(self):
         while not self._stop_thread:
+            photo_start_time = time.time()
             self.make_photo_callback()
-            self._lock.acquire(timeout=self.wait_time)
+            photo_time = time.time() - photo_start_time
+            time_left = max(0, self.wait_time - photo_time)
+            self._lock.acquire(timeout=time_left)
 
     def run(self) -> None:
         self.generate_photos()
