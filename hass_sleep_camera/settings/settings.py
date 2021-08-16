@@ -13,5 +13,8 @@ class Mqtt:
     PASSWORD = 'klapeczki'
     TOPIC = 'camera/master_bedroom/bed/'
     ERROR_TOPIC = 'errors/camera/master_bedroom/bed/'
+
+
+class Messages:
     START_PHOTOS = Mqtt.TOPIC + "start_photos"
     STOP_PHOTOS = Mqtt.TOPIC + "stop_photos"
