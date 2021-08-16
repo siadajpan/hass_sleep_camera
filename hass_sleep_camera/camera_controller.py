@@ -1,5 +1,6 @@
 import logging
 import os
+import time
 from datetime import datetime
 from typing import Optional
 
@@ -38,7 +39,10 @@ class CameraController:
 
     def stop_photos(self):
         self._stop_photo_generator()
+        # make sure it's closed
+        time.sleep(3)
         self._video_writer.release()
+        self._video_writer = None
 
     def stop(self):
         self._log.info('Stopping camera controller')
