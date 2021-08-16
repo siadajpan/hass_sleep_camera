@@ -7,7 +7,7 @@ CAMERA_RESOLUTION = (2592, 1944)
 
 
 class Mqtt:
-    ADDRESS = '192.168.0.1'
+    ADDRESS = '192.168.0.193'
     PORT = 1883
     USERNAME = 'karol'
     PASSWORD = 'klapeczki'
