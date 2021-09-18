@@ -12,7 +12,7 @@ from picamera import PiCamera
 from singleton_decorator import singleton
 
 from hass_sleep_camera.photo_managers.photo_generator import PhotoGenerator
-from hass_sleep_camera.settings import settings
+from hass_sleep_camera import settings
 
 
 @singleton
@@ -33,7 +33,7 @@ class CameraController:
         self._video_writer = cv2.VideoWriter(
             video_path,
             cv2.VideoWriter_fourcc(*'DIVX'),
-            int(1/settings.DELAY_BETWEEN_PHOTOS_S),
+            int(1 / settings.DELAY_BETWEEN_PHOTOS_S),
             self._camera.resolution
         )
         self._start_photo_generator()

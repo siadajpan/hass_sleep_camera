@@ -7,7 +7,7 @@ from mqtt_utils.message_manager import MessageManager
 from hass_sleep_camera.camera_controller import CameraController
 from hass_sleep_camera.messages.start_photos import StartPhotos
 from hass_sleep_camera.messages.stop_photos import StopPhotos
-from hass_sleep_camera.settings import settings
+from hass_sleep_camera import settings
 
 if __name__ == '__main__':
     now = datetime.now()

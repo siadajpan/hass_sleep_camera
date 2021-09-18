@@ -3,6 +3,10 @@ import os
 DELAY_BETWEEN_PHOTOS_S = 1  # photo done every n second
 ROOT_FOLDER = '/home/pi/images'
 SLEEP_FOLDER = os.path.join(ROOT_FOLDER, 'sleep')
+PROJECT_FOLDER = os.path.abspath('../..')
+HAAR_CASCADE_FOLDER = os.path.join(
+    PROJECT_FOLDER, 'venv', 'lib', 'python3.8',
+    'site-packages', 'cv2', 'data')
 CAMERA_RESOLUTION = (2592, 1944)
 
 

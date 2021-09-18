@@ -3,7 +3,7 @@ from typing import Dict, Any
 from mqtt_utils.messages.mqtt_message import MQTTMessage
 
 from hass_sleep_camera.camera_controller import CameraController
-from hass_sleep_camera.settings import settings
+from hass_sleep_camera import settings
 
 
 class StartPhotos(MQTTMessage):

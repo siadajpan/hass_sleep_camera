@@ -1,7 +1,7 @@
 import time
 from threading import Thread
 import RPi.GPIO as GPIO
-from hass_sleep_camera.settings import settings
+from hass_sleep_camera import settings
 
 
 class ButtonChecker(Thread):
