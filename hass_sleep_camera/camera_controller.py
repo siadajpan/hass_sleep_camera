@@ -25,6 +25,7 @@ class CameraController:
         self._video_writer: Optional[cv2.VideoWriter] = None
 
     def start_photos(self):
+        self._check_folders_exists()
         video_name = datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
         video_path = os.path.join(settings.SLEEP_FOLDER,
                                   video_name) + '.avi'
@@ -84,6 +85,5 @@ class CameraController:
             os.mkdir(settings.SLEEP_FOLDER)
 
     def _save_photo(self, photo: np.array):
-        self._log.debug(f'Adding photo')
-        self._check_folders_exists()
+        self._log.debug(f'Adding photo to video')
         self._video_writer.write(photo)

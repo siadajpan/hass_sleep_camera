@@ -17,7 +17,7 @@ class PhotoGenerator(Thread):
         self.logger.debug('Start generating photos')
         while not self._stop_thread:
             photo_start_time = time.time()
-            self.logger.debug('Calling make photo')
+            self.logger.debug('Calling make_photo_callback')
             self.make_photo_callback()
             photo_time = time.time() - photo_start_time
             time_left = max(0, self.wait_time - photo_time)
